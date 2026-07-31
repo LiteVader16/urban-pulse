@@ -304,6 +304,16 @@
       "specialist": false
     },
     {
+      "id": "nyt-nyregion",
+      "name": "The New York Times — New York",
+      "short": "New York Times",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/NYRegion.xml",
+      "site": "https://www.nytimes.com/section/nyregion",
+      "tier": "international",
+      "lean": "centre-left",
+      "specialist": true
+    },
+    {
       "id": "atlantic",
       "name": "The Atlantic",
       "short": "The Atlantic",

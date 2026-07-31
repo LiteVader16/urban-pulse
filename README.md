@@ -1,6 +1,6 @@
 # Urban Pulse
 
-Urban news from 52 credible newsrooms, sorted by day, place and theme, refreshed
+Urban news from 53 credible newsrooms, sorted by day, place and theme, refreshed
 every four hours. Built for an urban designer who wants to catch up in ten
 minutes rather than scroll five apps.
 
@@ -13,8 +13,9 @@ minutes rather than scroll five apps.
 Pulls RSS from a fixed list of newsrooms, keeps only the items that read as urban
 news, tags them against a 17-theme taxonomy, and publishes a static page.
 
-- **Two views** — a day sheet showing one date at a time, and a month calendar
-  that doubles as a date picker with per-day volume
+- **Three views** — a day sheet listing one date at a time; a month calendar
+  that doubles as a date picker with per-day volume; and *one at a time*, a
+  single framed story flipped with the on-screen arrows or the ← → keys
 - **Four places** — Ahmedabad · Bengaluru · India · World
 - **Seventeen themes** in six families — Shelter & Land, Movement, Environment &
   Climate, People & Society, Design & Heritage, Tech & Data
@@ -28,12 +29,17 @@ The interface is an icon rail (Places · Newsrooms · Topics · Search) that ope
 one filter panel at a time, a centre sheet, and a charts rail. Clicking a bar in
 either chart filters or jumps to that day.
 
+*One at a time* flips through the whole filtered set rather than a single day,
+so the date header changes underneath as you cross midnight — which is what
+makes it usable as a reading queue instead of a day viewer. Entering it from a
+day lands on that day's newest story, not the top of the archive.
+
 ## How it works
 
 ```
 GitHub Action (every 4h)
    └─ scripts/fetch_news.py
-        ├─ fetch 52 feeds          (threaded, failures are skipped not fatal)
+        ├─ fetch 53 feeds          (threaded, failures are skipped not fatal)
         ├─ parse RSS / RDF / Atom  (one namespace-agnostic parser)
         ├─ score urban relevance   (scripts/taxonomy.py)
         ├─ tag up to 3 themes
@@ -93,7 +99,7 @@ editorial orientation, not a quality judgement.
 | **Ahmedabad** | Times of India Ahmedabad, Times of India Gujarat, Indian Express Ahmedabad |
 | **Bengaluru** | Times of India Bengaluru, Indian Express Bangalore, The Hindu Bangalore, Citizen Matters Bengaluru |
 | **India** | The Hindu (national · cities · environment), Indian Express (india · cities), Hindustan Times (india · cities), Times of India, Mint, Economic Times, ET RealEstate, Frontline, The Federal, News18, The News Minute, Mongabay India, Question of Cities, Citizen Matters |
-| **World** | Guardian (cities · environment), New York Times (climate · real estate), The Atlantic, NPR, Grist, BBC, DW, Al Jazeera, The Conversation, Carbon Brief, Wall Street Journal, Financial Times, City Journal, National Review, Reason, Streetsblog, Smart Cities Dive, ArchDaily, Dezeen, Curbed, The Urbanist, Sightline Institute, Dialogue Earth, MIT Technology Review |
+| **World** | Guardian (cities · environment), New York Times (climate · real estate · New York), The Atlantic, NPR, Grist, BBC, DW, Al Jazeera, The Conversation, Carbon Brief, Wall Street Journal, Financial Times, City Journal, National Review, Reason, Streetsblog, Smart Cities Dive, ArchDaily, Dezeen, Curbed, The Urbanist, Sightline Institute, Dialogue Earth, MIT Technology Review |
 
 Spread: **left** Guardian, Grist, Frontline, The Federal · **centre-left** The Hindu,
 NYT, Atlantic, NPR · **centre** BBC, DW, Al Jazeera, Indian Express, HT, TOI ·
@@ -174,6 +180,19 @@ Failures never break a run; the fetcher skips them and carries on.
 `tier` is `ahmedabad` | `bengaluru` | `national` | `international`. Set
 `specialist: true` only when the entire publication is already about cities — it
 lowers the relevance bar substantially.
+
+### Paywalls and credentials
+
+Several sources here are paywalled — the New York Times, the FT, the Wall Street
+Journal. **No subscription or login is needed for any of them, and none should
+ever be added.** RSS feeds are public: the headline, the publisher's own summary
+and the link all come from an unauthenticated request. The paywall applies when
+you open the article, where your own subscription does the work.
+
+Putting subscriber credentials in this repository would be doubly wrong — a
+secret published to a public repo, and a licence to pull paywalled text that
+this project has no right to redistribute. If a paywalled outlet has more feeds
+worth carrying, add the *feed*; the reader's own subscription handles the rest.
 
 ## Hosting
 

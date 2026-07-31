@@ -38,6 +38,13 @@
         <span class="daychip" id="daychip">31</span>
         <span>Today's view</span>
       </button>
+      <button type="button" class="view-btn" id="view-focus" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="vicon">
+          <rect x="5" y="4" width="14" height="17" rx="1.6"/>
+          <path d="M8 9h8M8 13h8M8 17h5"/>
+        </svg>
+        <span>One at a time</span>
+      </button>
     </div>
 
     <div class="masthead-divider" aria-hidden="true"></div>
@@ -125,6 +132,19 @@
     <div class="sheet-body">
       <div id="story-list" class="story-list"></div>
       <div id="calendar" class="calendar" hidden></div>
+
+      <!-- One story at a time, flipped with the arrows either side or the
+           left/right keys. -->
+      <div id="focus" class="focus" hidden>
+        <button type="button" class="focus-arrow" id="focus-prev" aria-label="Previous story">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="focus-card" id="focus-card"></div>
+        <button type="button" class="focus-arrow" id="focus-next" aria-label="Next story">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
       <p id="empty-state" class="empty-state" hidden></p>
     </div>
   </main>

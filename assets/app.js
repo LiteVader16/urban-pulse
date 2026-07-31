@@ -45,8 +45,9 @@
 
   var state = {
     data: null,
-    view: "day",          // "day" | "calendar"
+    view: "day",          // "day" | "calendar" | "focus"
     date: null,           // YYYY-MM-DD currently shown
+    focusIndex: 0,        // position within the filtered set, newest first
     calMonth: null,       // Date pinned to the 1st of the displayed month
     tier: "all",
     sources: new Set(),   // empty = all newsrooms
@@ -290,6 +291,9 @@
     // Keep the reader on a day that still has something to read.
     var days = activeDays(filtered());
     if (days.length && days.indexOf(state.date) === -1) state.date = days[0];
+    // The focus index points into the filtered list, so a changed filter makes
+    // the old position meaningless — start again at the newest story.
+    state.focusIndex = 0;
     renderPanel();
     renderMain();
     renderCharts();
@@ -428,6 +432,135 @@
     return bits.length ? " · " + bits.join(" · ") : "";
   }
 
+  /* ------------------------------------------------------------ focus view */
+
+  /* Everything currently in scope, newest first. Focus flips through this one
+     item at a time and lets the date change underneath, rather than trapping
+     the reader inside a single day. */
+  function focusPool() {
+    return filtered().sort(function (a, b) {
+      return a.published < b.published ? 1 : -1;
+    });
+  }
+
+  function renderFocusView() {
+    var pool = focusPool();
+    var card = $("focus-card");
+    card.textContent = "";
+
+    if (!pool.length) {
+      $("focus").hidden = true;
+      $("empty-state").hidden = false;
+      $("empty-state").textContent = "No stories match these filters. Try clearing one.";
+      $("sheet-date").textContent = "Nothing to read";
+      $("sheet-meta").textContent = describeFilters().replace(/^ · /, "");
+      return;
+    }
+    $("focus").hidden = false;
+    $("empty-state").hidden = true;
+
+    if (state.focusIndex >= pool.length) state.focusIndex = pool.length - 1;
+    if (state.focusIndex < 0) state.focusIndex = 0;
+
+    var article = pool[state.focusIndex];
+    // Keep the rest of the page in step: the date header and the daily chart
+    // both follow whichever story is on screen.
+    state.date = localDay(article);
+
+    var d = parseISO(state.date);
+    var head = $("sheet-date");
+    head.textContent = "";
+    head.appendChild(document.createTextNode(String(d.getDate())));
+    head.appendChild(el("sup", "", ordinal(d.getDate())));
+    head.appendChild(document.createTextNode(" " +
+      d.toLocaleDateString(undefined, { month: "long" }) + " ’" +
+      String(d.getFullYear()).slice(2)));
+
+    var todayISO = iso(new Date());
+    var rel = state.date === todayISO ? "Today"
+      : (state.date === iso(new Date(Date.now() - 86400000)) ? "Yesterday"
+        : d.toLocaleDateString(undefined, { weekday: "long" }));
+    $("sheet-meta").textContent = rel + describeFilters();
+
+    var family = themeFamily(article.themes[0]) || "society";
+
+    var media = el("div", "focus-media");
+    if (article.image) {
+      var img = document.createElement("img");
+      img.src = article.image;
+      img.alt = "";
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+      img.addEventListener("error", function () {
+        media.textContent = "";
+        media.appendChild(focusPlate(article, family));
+      });
+      media.appendChild(img);
+    } else {
+      media.appendChild(focusPlate(article, family));
+    }
+    card.appendChild(media);
+
+    var kicker = el("div", "focus-kicker");
+    kicker.appendChild(el("span", "source-name", article.sourceName));
+    var badge = el("span", "lean-badge", LEAN_LABEL[article.lean] || article.lean);
+    badge.setAttribute("data-lean", article.lean);
+    kicker.appendChild(badge);
+    kicker.appendChild(el("span", "", new Date(article.published)
+      .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })));
+    card.appendChild(kicker);
+
+    var h = el("h3", "focus-title");
+    var link = document.createElement("a");
+    link.href = article.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = article.title;
+    h.appendChild(link);
+    card.appendChild(h);
+
+    if (article.summary) card.appendChild(el("p", "focus-summary", article.summary));
+
+    var tags = el("div", "focus-tags");
+    article.themes.forEach(function (t) {
+      var tag = el("span", "theme-tag", themeLabel(t));
+      tag.style.setProperty("--tag-colour", familyColour(themeFamily(t)));
+      tags.appendChild(tag);
+    });
+    card.appendChild(tags);
+
+    var read = document.createElement("a");
+    read.className = "focus-read";
+    read.href = article.url;
+    read.target = "_blank";
+    read.rel = "noopener noreferrer";
+    read.textContent = "Read at " + article.sourceName + " →";
+    card.appendChild(read);
+
+    card.appendChild(el("p", "focus-counter",
+      (state.focusIndex + 1) + " of " + pool.length));
+    card.appendChild(el("p", "focus-hint", "Use ← → to flip"));
+
+    $("focus-prev").disabled = state.focusIndex === 0;
+    $("focus-next").disabled = state.focusIndex >= pool.length - 1;
+  }
+
+  function focusPlate(article, family) {
+    var plate = el("div", "focus-plate");
+    plate.style.setProperty("--plate-colour", familyColour(family));
+    plate.appendChild(el("span", "", article.sourceName));
+    return plate;
+  }
+
+  function stepFocus(delta) {
+    var pool = focusPool();
+    var next = state.focusIndex + delta;
+    if (next < 0 || next >= pool.length) return;
+    state.focusIndex = next;
+    renderFocusView();
+    renderCharts();
+  }
+
   /* -------------------------------------------------------------- calendar */
 
   function renderCalendarView() {
@@ -518,21 +651,38 @@
   }
 
   function setView(view) {
+    // Entering focus from a day lands on that day's newest story rather than
+    // resetting to the top of the archive.
+    if (view === "focus" && state.view !== "focus") {
+      var pool = focusPool();
+      var idx = 0;
+      for (var i = 0; i < pool.length; i++) {
+        if (localDay(pool[i]) === state.date) { idx = i; break; }
+      }
+      state.focusIndex = idx;
+    }
     state.view = view;
     $("view-day").setAttribute("aria-pressed", String(view === "day"));
     $("view-calendar").setAttribute("aria-pressed", String(view === "calendar"));
+    $("view-focus").setAttribute("aria-pressed", String(view === "focus"));
     renderMain();
     renderCharts();
   }
 
   function renderMain() {
-    var isDay = state.view === "day";
-    $("story-list").hidden = !isDay;
-    $("calendar").hidden = isDay;
-    $("prev-day").hidden = !isDay;
-    $("next-day").hidden = !isDay;
-    if (isDay) renderDayView();
-    else renderCalendarView();
+    var view = state.view;
+    $("story-list").hidden = view !== "day";
+    $("calendar").hidden = view !== "calendar";
+    $("focus").hidden = view !== "focus";
+    // The head arrows page by day, which only means anything in the day view;
+    // focus has its own arrows and calendar has month navigation.
+    $("prev-day").hidden = view !== "day";
+    $("next-day").hidden = view !== "day";
+    $("sheet").classList.toggle("is-focus", view === "focus");
+
+    if (view === "day") renderDayView();
+    else if (view === "calendar") renderCalendarView();
+    else renderFocusView();
   }
 
   /* --------------------------------------------------------------- charts */
@@ -853,6 +1003,10 @@
 
     $("view-day").addEventListener("click", function () { setView("day"); });
     $("view-calendar").addEventListener("click", function () { setView("calendar"); });
+    $("view-focus").addEventListener("click", function () { setView("focus"); });
+
+    $("focus-prev").addEventListener("click", function () { stepFocus(-1); });
+    $("focus-next").addEventListener("click", function () { stepFocus(1); });
 
     document.addEventListener("keydown", function (evt) {
       if (evt.key === "Escape" && state.openPanel) {
@@ -861,7 +1015,14 @@
           b.setAttribute("aria-expanded", "false");
         });
         renderPanel();
+        return;
       }
+      // Do not hijack the arrows while someone is typing in the search box.
+      var tag = evt.target && evt.target.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (state.view !== "focus") return;
+      if (evt.key === "ArrowLeft") { evt.preventDefault(); stepFocus(-1); }
+      else if (evt.key === "ArrowRight") { evt.preventDefault(); stepFocus(1); }
     });
   }
 

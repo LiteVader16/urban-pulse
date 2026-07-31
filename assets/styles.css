@@ -404,10 +404,11 @@ a { color: inherit; }
   border: 1px solid var(--rule-strong);
   border-radius: 2px;
   box-shadow: 0 1px 0 var(--rule), 0 10px 30px -18px rgba(0, 0, 0, 0.4);
-  padding: 1.75rem 2rem 2.25rem;
-  min-height: 70vh;
+  padding: 2.5rem 3rem 3rem;
+  min-height: 74vh;
   min-width: 0;
 }
+.sheet.is-focus { padding: 2.75rem 2.25rem 3.25rem; }
 
 .sheet-head {
   display: flex; align-items: flex-start; gap: 1rem;
@@ -452,7 +453,7 @@ a { color: inherit; }
 
 .sheet-rule {
   border-top: 2px dashed var(--rule-strong);
-  margin: 1.1rem 0 1.35rem;
+  margin: 1.5rem 0 2rem;
 }
 
 /* ------------------------------------------------------------ story list */
@@ -462,8 +463,8 @@ a { color: inherit; }
 .story {
   display: grid;
   grid-template-columns: 116px minmax(0, 1fr);
-  gap: 1rem;
-  padding: 1.05rem 0;
+  gap: 1.25rem;
+  padding: 1.6rem 0;
   border-bottom: 1px solid var(--rule);
   position: relative;
 }
@@ -564,6 +565,129 @@ a { color: inherit; }
 .empty-state {
   text-align: center; padding: 3.5rem 1rem;
   color: var(--ink-muted); font-family: var(--serif); font-size: 1.05rem;
+}
+
+/* ------------------------------------------------------------- focus view */
+/* One story, framed, with plenty of air. The arrows sit outside the card so
+   the frame itself stays uncluttered. */
+
+.focus {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 2.5rem);
+  padding: 1rem 0 0;
+}
+
+.focus-arrow {
+  appearance: none;
+  width: 52px; height: 52px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--ink-2);
+  flex: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.focus-arrow svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: currentColor; stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.focus-arrow:hover:not(:disabled) {
+  background: var(--ink); color: var(--surface); border-color: var(--ink);
+}
+.focus-arrow:disabled { opacity: 0.25; cursor: default; }
+
+.focus-card {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.focus-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--plane);
+}
+.focus-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.focus-plate {
+  width: 100%; height: 100%;
+  display: grid; place-items: center; position: relative;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--plate-colour) 24%, var(--surface)),
+    color-mix(in srgb, var(--plate-colour) 7%, var(--surface)));
+}
+.focus-plate::after {
+  content: ""; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(45deg, transparent 0 9px,
+    color-mix(in srgb, var(--plate-colour) 10%, transparent) 9px 10px);
+}
+.focus-plate span {
+  font-family: var(--serif); font-size: 1.5rem; color: var(--ink-2);
+  position: relative; z-index: 1;
+}
+
+.focus-kicker {
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-muted); font-weight: 600;
+}
+
+.focus-title {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.1vw, 2.15rem);
+  line-height: 1.18;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.012em;
+}
+.focus-title a { text-decoration: none; }
+.focus-title a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.focus-summary {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.68;
+  color: var(--ink-2);
+}
+
+.focus-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+.focus-read {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0.15rem;
+  align-self: flex-start;
+}
+.focus-read:hover { color: var(--ink-2); border-color: var(--ink-2); }
+
+.focus-counter {
+  margin: 2.25rem 0 0;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.focus-hint {
+  margin: 0.4rem 0 0; text-align: center;
+  font-size: 0.68rem; color: var(--ink-muted); opacity: 0.75;
 }
 
 /* ---------------------------------------------------------------- calendar */
@@ -724,7 +848,13 @@ a { color: inherit; }
   .rail { width: 100%; flex-direction: row; }
   .rail-btn { flex: 1; }
   .panel { width: 100%; margin-left: 0; margin-top: 0.5rem; max-height: none; }
-  .sheet { padding: 1.25rem 1.1rem 1.75rem; }
+  .sheet, .sheet.is-focus { padding: 1.4rem 1.2rem 2rem; }
+  /* Arrows drop below the card rather than squeezing it. */
+  .focus { grid-template-columns: 1fr; gap: 1.25rem; }
+  .focus-arrow { grid-row: 2; }
+  .focus-arrow#focus-prev { justify-self: start; }
+  .focus-arrow#focus-next { justify-self: end; grid-column: 1; }
+  .focus-card { grid-row: 1; grid-column: 1; }
   .story { grid-template-columns: 88px minmax(0, 1fr); gap: 0.8rem; }
   .masthead { padding: 0.9rem 1rem; }
   .masthead-right { gap: 0.75rem; width: 100%; justify-content: space-between; }
