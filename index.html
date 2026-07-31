@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Urban Pulse — urban news, sorted</title>
+<meta name="description" content="Urban news from credible newsrooms across the political spectrum, sorted by place, day and theme. Ahmedabad, Bengaluru, India, world.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230b0b0b'/><path d='M6 22h4v-8H6zM13 22h4V8h-4zM20 22h4v-12h-4z' fill='%23eda100'/></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#sheet">Skip to stories</a>
+
+<!-- ------------------------------------------------------------ masthead -->
+<header class="masthead">
+  <div class="brand">
+    <h1 class="wordmark">Urban Pulse</h1>
+    <p class="tagline">One stop for news on everything cities</p>
+  </div>
+
+  <div class="masthead-right">
+    <div class="view-toggle" role="group" aria-label="View">
+      <button type="button" class="view-btn" id="view-calendar" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="vicon">
+          <rect x="3" y="5" width="18" height="16" rx="2"/>
+          <path d="M3 10h18M8 3v4M16 3v4"/>
+          <circle cx="8" cy="14" r="1.1" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="14" r="1.1" fill="currentColor" stroke="none"/>
+          <circle cx="16" cy="14" r="1.1" fill="currentColor" stroke="none"/>
+          <circle cx="8" cy="18" r="1.1" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="18" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>Calendar view</span>
+      </button>
+      <button type="button" class="view-btn" id="view-day" aria-pressed="true">
+        <span class="daychip" id="daychip">31</span>
+        <span>Today's view</span>
+      </button>
+    </div>
+
+    <div class="masthead-divider" aria-hidden="true"></div>
+
+    <div class="updated-block">
+      <p class="updated-label">Updated</p>
+      <p class="updated-value" id="updated">…</p>
+    </div>
+
+    <button id="theme-toggle" class="icon-btn" type="button" aria-label="Switch colour theme">
+      <span class="theme-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<!-- --------------------------------------------------------------- shell -->
+<div class="shell">
+
+  <!-- left: icon rail + the panel it opens -->
+  <div class="rail-wrap">
+    <nav class="rail" aria-label="Filters">
+      <button type="button" class="rail-btn" data-panel="places" aria-expanded="false" title="Places">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/>
+          <circle cx="12" cy="10" r="2.6"/>
+        </svg>
+        <span class="rail-label">Places</span>
+        <span class="rail-dot" data-count="places" hidden></span>
+      </button>
+
+      <button type="button" class="rail-btn" data-panel="newsrooms" aria-expanded="false" title="Newsrooms">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+          <path d="M7 9h4v3H7zM14 9h3M14 12h3M7 15h10"/>
+        </svg>
+        <span class="rail-label">Newsrooms</span>
+        <span class="rail-dot" data-count="newsrooms" hidden></span>
+      </button>
+
+      <button type="button" class="rail-btn" data-panel="topics" aria-expanded="false" title="Topics">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 15c0-3 3.6-5 8-5s8 2 8 5"/>
+          <path d="M2.5 15.5h19"/>
+          <path d="M8 10.5C8 7 9.8 5 12 5s4 2 4 5.5"/>
+        </svg>
+        <span class="rail-label">Topics</span>
+        <span class="rail-dot" data-count="topics" hidden></span>
+      </button>
+
+      <button type="button" class="rail-btn" data-panel="search" aria-expanded="false" title="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"/>
+          <path d="M16 16l4.5 4.5"/>
+        </svg>
+        <span class="rail-label">Search</span>
+        <span class="rail-dot" data-count="search" hidden></span>
+      </button>
+    </nav>
+
+    <div class="panel" id="panel" hidden>
+      <div class="panel-head">
+        <h2 id="panel-title">Places</h2>
+        <button type="button" class="panel-close" id="panel-close" aria-label="Close panel">&times;</button>
+      </div>
+      <div class="panel-body" id="panel-body"></div>
+      <div class="panel-foot">
+        <button type="button" class="clear-btn" id="clear-filters">Clear all filters</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- centre: the sheet -->
+  <main class="sheet" id="sheet">
+    <div class="sheet-head">
+      <button type="button" class="nav-arrow" id="prev-day" aria-label="Previous day">&larr;</button>
+      <div class="sheet-title-block">
+        <h2 class="sheet-date" id="sheet-date">&nbsp;</h2>
+        <p class="sheet-meta" id="sheet-meta"></p>
+      </div>
+      <button type="button" class="nav-arrow" id="next-day" aria-label="Next day">&rarr;</button>
+    </div>
+
+    <div class="sheet-rule" aria-hidden="true"></div>
+
+    <div class="sheet-body">
+      <div id="story-list" class="story-list"></div>
+      <div id="calendar" class="calendar" hidden></div>
+      <p id="empty-state" class="empty-state" hidden></p>
+    </div>
+  </main>
+
+  <!-- right: charts -->
+  <aside class="charts" aria-label="Coverage">
+    <section class="chart-card">
+      <div class="chart-head">
+        <svg viewBox="0 0 24 24" class="chart-icon" aria-hidden="true">
+          <path d="M4 20V10M9 20V4M14 20v-7M19 20v-4"/><path d="M3 20h18"/>
+        </svg>
+        <div>
+          <h3>Stories per day</h3>
+          <p class="chart-note">last 14 days</p>
+        </div>
+      </div>
+      <div class="chart" id="chart-daily"></div>
+    </section>
+
+    <section class="chart-card">
+      <div class="chart-head">
+        <svg viewBox="0 0 24 24" class="chart-icon" aria-hidden="true">
+          <path d="M4 6h13M4 12h9M4 18h15"/>
+        </svg>
+        <div>
+          <h3>Themes</h3>
+          <p class="chart-note">number of stories</p>
+        </div>
+      </div>
+      <div class="chart" id="chart-themes"></div>
+    </section>
+
+    <section class="chart-card sources-card">
+      <div class="chart-head">
+        <svg viewBox="0 0 24 24" class="chart-icon" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>
+        </svg>
+        <div>
+          <h3>Newsrooms</h3>
+          <p class="chart-note" id="source-count">…</p>
+        </div>
+      </div>
+      <details class="sources-detail">
+        <summary>See the full list</summary>
+        <p class="footer-note">
+          Every story links to its original publisher. Urban Pulse stores only a
+          headline, the publisher's own summary and a link — never the article text.
+          Newsrooms are labelled by editorial lean, and the mix is deliberately
+          left, centre and right.
+        </p>
+        <div id="source-list" class="source-list"></div>
+      </details>
+    </section>
+  </aside>
+</div>
+
+<footer class="site-footer">
+  <p>Urban Pulse · built for reading the city · updates every 4 hours ·
+    <a href="https://github.com/LiteVader16/urban-pulse">source on GitHub</a></p>
+</footer>
+
+<div id="tooltip" class="tooltip" role="status" aria-live="polite" hidden></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

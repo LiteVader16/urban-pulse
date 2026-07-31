@@ -4,7 +4,7 @@ Urban Pulse — feed fetcher.
 
 Pulls every feed in sources.json, keeps only what reads as urban news, tags it
 against taxonomy.py, merges with the existing archive and writes
-docs/data/news.json.
+data/news.json.
 
 Deliberately stdlib-only. This runs unattended on a schedule; a pinned
 dependency that yanks a release should never be able to take the site down.
@@ -35,7 +35,7 @@ import taxonomy
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SOURCES_PATH = os.path.join(HERE, "sources.json")
-OUT_PATH = os.path.join(ROOT, "docs", "data", "news.json")
+OUT_PATH = os.path.join(ROOT, "data", "news.json")
 
 # --- Tunables -----------------------------------------------------------
 
@@ -86,10 +86,25 @@ TRACKING_PARAMS = re.compile(r"^(utm_|fbclid|gclid|ref|source|at_|CMP|cmp)", re.
 class _RedirectHandler(urllib.request.HTTPRedirectHandler):
     """Follow 307/308 as well as the older redirect codes.
 
-    Python below 3.11 does not handle 307/308 at all, and a growing number of
-    publishers answer feed requests with a 308. Untreated it raises and the feed
-    looks stone dead, when in fact it has simply moved.
+    Python below 3.11 does not handle 308 at all, and a growing number of
+    publishers answer feed requests with one. Routing the code to http_error_302
+    is not enough on its own: the inherited redirect_request() only permits
+    301/302/303/307 and raises on anything else, so the redirect must be built
+    here instead of delegated. Loop protection still applies — the inherited
+    http_error_302 counts hops in req.redirect_dict.
     """
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if code in (307, 308):
+            # Both codes preserve the method; we only ever GET.
+            return urllib.request.Request(
+                newurl,
+                headers=dict(req.header_items()),
+                origin_req_host=req.origin_req_host,
+                unverifiable=True,
+                method=req.get_method(),
+            )
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
     http_error_307 = urllib.request.HTTPRedirectHandler.http_error_302
     http_error_308 = urllib.request.HTTPRedirectHandler.http_error_302

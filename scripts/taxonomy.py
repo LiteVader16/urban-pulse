@@ -401,6 +401,13 @@ URBAN_CONTEXT_STRONG = [
     "land use", "urban renewal", "civic body", "property market",
     "footpath", "sidewalk", "cycle lane", "bike lane", "pedestrian",
     "high-rise", "skyline", "built environment", "public realm",
+    # Indian civic bodies and development authorities. Naming one of these IS
+    # naming a city — a story about HYDRAA or BBMP is municipal government by
+    # definition. Without them, genuine urban-governance reporting was being
+    # rejected for never using the literal word "city" in its headline.
+    "bbmp", "bmc", "mcd", "ghmc", "hydraa", "cmda", "dda", "mmrda", "hmda",
+    "auda", "gmda", "bmtc", "bmrcl", "bwssb", "ndmc", "pcmc",
+    "municipal commissioner", "development authority", "urban local body",
 ]
 
 # --- Noise --------------------------------------------------------------

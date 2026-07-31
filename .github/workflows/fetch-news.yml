@@ -45,12 +45,12 @@ jobs:
         run: |
           git config user.name  "urban-pulse-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- docs/data/news.json; then
+          if git diff --quiet -- data/news.json; then
             echo "No change to the archive; nothing to commit."
             exit 0
           fi
-          COUNT=$(python3 -c "import json;print(len(json.load(open('docs/data/news.json'))['articles']))")
-          git add docs/data/news.json
+          COUNT=$(python3 -c "import json;print(len(json.load(open('data/news.json'))['articles']))")
+          git add data/news.json
           git commit -m "news: refresh archive (${COUNT} stories)"
           # A scheduled run can race a push; rebase rather than fail the job.
           git pull --rebase --autostash origin main

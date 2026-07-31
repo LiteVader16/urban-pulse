@@ -22,6 +22,16 @@
       "specialist": false
     },
     {
+      "id": "toi-gujarat",
+      "name": "The Times of India — Gujarat",
+      "short": "TOI Gujarat",
+      "url": "https://timesofindia.indiatimes.com/rssfeeds/3947060.cms",
+      "site": "https://timesofindia.indiatimes.com/city/ahmedabad",
+      "tier": "ahmedabad",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
       "id": "toi-bengaluru",
       "name": "The Times of India — Bengaluru",
       "short": "TOI Bengaluru",
@@ -210,6 +220,26 @@
       "site": "https://frontline.thehindu.com/",
       "tier": "national",
       "lean": "left",
+      "specialist": false
+    },
+    {
+      "id": "thenewsminute",
+      "name": "The News Minute",
+      "short": "The News Minute",
+      "url": "https://www.thenewsminute.com/feed",
+      "site": "https://www.thenewsminute.com/",
+      "tier": "national",
+      "lean": "left",
+      "specialist": false
+    },
+    {
+      "id": "mongabay-india",
+      "name": "Mongabay India",
+      "short": "Mongabay India",
+      "url": "https://india.mongabay.com/feed/",
+      "site": "https://india.mongabay.com/",
+      "tier": "national",
+      "lean": "specialist",
       "specialist": false
     },
     {
@@ -444,14 +474,44 @@
       "specialist": true
     },
     {
-      "id": "archpaper",
-      "name": "The Architect's Newspaper",
-      "short": "Architect's Newspaper",
-      "url": "https://archpaper.com/feed/",
-      "site": "https://archpaper.com/",
+      "id": "curbed",
+      "name": "Curbed",
+      "short": "Curbed",
+      "url": "https://www.curbed.com/rss/index.xml",
+      "site": "https://www.curbed.com/",
       "tier": "international",
       "lean": "specialist",
       "specialist": true
+    },
+    {
+      "id": "theurbanist",
+      "name": "The Urbanist",
+      "short": "The Urbanist",
+      "url": "https://www.theurbanist.org/feed/",
+      "site": "https://www.theurbanist.org/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "sightline",
+      "name": "Sightline Institute",
+      "short": "Sightline",
+      "url": "https://www.sightline.org/feed/",
+      "site": "https://www.sightline.org/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "dialogue-earth",
+      "name": "Dialogue Earth",
+      "short": "Dialogue Earth",
+      "url": "https://dialogue.earth/en/feed/",
+      "site": "https://dialogue.earth/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": false
     },
     {
       "id": "technologyreview",
