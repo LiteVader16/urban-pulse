@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Urban Pulse — urban news, sorted</title>
+<meta name="description" content="Urban news from 46 credible newsrooms across the political spectrum, sorted by place and theme. Ahmedabad, Bengaluru, India, world.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230b0b0b'/><path d='M6 22h4v-8H6zM13 22h4V8h-4zM20 22h4v-12h-4z' fill='%23eda100'/></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#stories">Skip to stories</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <h1 class="wordmark">Urban&nbsp;Pulse</h1>
+      <p class="tagline">The city, as reported — across the spectrum</p>
+    </div>
+    <div class="masthead-meta">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Switch colour theme">
+        <span class="theme-icon" aria-hidden="true"></span>
+      </button>
+      <p class="updated" id="updated">Loading…</p>
+    </div>
+  </div>
+</header>
+
+<nav class="tiers" aria-label="Place">
+  <div class="tiers-inner" id="tier-nav" role="tablist"></div>
+</nav>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="control-row">
+      <label class="search">
+        <span class="visually-hidden">Search stories</span>
+        <svg class="search-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5 18 18"/></svg>
+        <input type="search" id="search" placeholder="Search headlines, sources, themes…" autocomplete="off">
+      </label>
+      <div class="lean-filter" id="lean-filter" role="group" aria-label="Filter by editorial lean"></div>
+    </div>
+    <div class="chips" id="family-chips" role="group" aria-label="Filter by theme family"></div>
+    <div class="chips chips-sub" id="theme-chips" role="group" aria-label="Filter by theme"></div>
+  </div>
+</div>
+
+<section class="pulse" aria-labelledby="pulse-heading">
+  <div class="pulse-inner">
+    <div class="pulse-head">
+      <h2 id="pulse-heading">Coverage pulse</h2>
+      <p class="pulse-sub" id="pulse-sub">What the newsrooms have been covering</p>
+    </div>
+    <div class="pulse-grid">
+      <figure class="chart-card">
+        <figcaption>
+          <span class="chart-title">Stories per day</span>
+          <span class="chart-note">last 14 days</span>
+        </figcaption>
+        <div class="chart" id="chart-daily"></div>
+      </figure>
+      <figure class="chart-card">
+        <figcaption>
+          <span class="chart-title">Most covered themes</span>
+          <span class="chart-note">in the current view</span>
+        </figcaption>
+        <div class="chart" id="chart-themes"></div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<main id="stories" class="stories">
+  <div class="stories-inner">
+    <div class="result-bar">
+      <p id="result-count" class="result-count"></p>
+      <div class="sort-group">
+        <label for="sort" class="visually-hidden">Sort stories</label>
+        <select id="sort">
+          <option value="newest">Newest first</option>
+          <option value="relevance">Most on-topic</option>
+          <option value="source">By newsroom</option>
+        </select>
+      </div>
+    </div>
+    <div id="story-grid" class="story-grid"></div>
+    <p id="empty-state" class="empty-state" hidden>
+      Nothing matches those filters yet. Try widening the theme or place.
+    </p>
+    <button id="load-more" class="load-more" type="button" hidden>Load more stories</button>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <details class="sources-panel">
+      <summary><span>Where this comes from</span><span class="source-count" id="source-count"></span></summary>
+      <p class="footer-note">
+        Every story below links to its original publisher. Urban Pulse stores only a
+        headline, the publisher's own summary and a link — it does not reproduce articles.
+        Newsrooms are labelled by editorial lean so you can see who is telling you,
+        and the mix is deliberately left, centre and right.
+      </p>
+      <div id="source-list" class="source-list"></div>
+    </details>
+    <p class="colophon">
+      Urban Pulse · built for reading the city · updates every 4 hours ·
+      <a href="https://github.com/LiteVader16/urban-pulse">source on GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<div id="tooltip" class="tooltip" role="status" aria-live="polite" hidden></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

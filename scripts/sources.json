@@ -1,0 +1,467 @@
+{
+  "_comment": "Feed registry for Urban Pulse. Every URL here was live-tested before inclusion. tier: ahmedabad | bengaluru | national | international. lean: left | centre-left | centre | centre-right | right | specialist. specialist=true lowers the urban-relevance threshold because the whole publication is already on-topic.",
+  "sources": [
+    {
+      "id": "toi-ahmedabad",
+      "name": "The Times of India — Ahmedabad",
+      "short": "TOI Ahmedabad",
+      "url": "https://timesofindia.indiatimes.com/rssfeeds/-2128821153.cms",
+      "site": "https://timesofindia.indiatimes.com/city/ahmedabad",
+      "tier": "ahmedabad",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "ie-ahmedabad",
+      "name": "The Indian Express — Ahmedabad",
+      "short": "Indian Express",
+      "url": "https://indianexpress.com/section/cities/ahmedabad/feed/",
+      "site": "https://indianexpress.com/section/cities/ahmedabad/",
+      "tier": "ahmedabad",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "toi-bengaluru",
+      "name": "The Times of India — Bengaluru",
+      "short": "TOI Bengaluru",
+      "url": "https://timesofindia.indiatimes.com/rssfeeds/-2128833038.cms",
+      "site": "https://timesofindia.indiatimes.com/city/bengaluru",
+      "tier": "bengaluru",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "ie-bengaluru",
+      "name": "The Indian Express — Bangalore",
+      "short": "Indian Express",
+      "url": "https://indianexpress.com/section/cities/bangalore/feed/",
+      "site": "https://indianexpress.com/section/cities/bangalore/",
+      "tier": "bengaluru",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "hindu-bengaluru",
+      "name": "The Hindu — Bangalore",
+      "short": "The Hindu",
+      "url": "https://www.thehindu.com/news/cities/bangalore/feeder/default.rss",
+      "site": "https://www.thehindu.com/news/cities/bangalore/",
+      "tier": "bengaluru",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "citizenmatters-bengaluru",
+      "name": "Citizen Matters — Bengaluru",
+      "short": "Citizen Matters",
+      "url": "https://bengaluru.citizenmatters.in/feed",
+      "site": "https://bengaluru.citizenmatters.in/",
+      "tier": "bengaluru",
+      "lean": "specialist",
+      "specialist": true
+    },
+
+    {
+      "id": "hindu-national",
+      "name": "The Hindu — National",
+      "short": "The Hindu",
+      "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+      "site": "https://www.thehindu.com/news/national/",
+      "tier": "national",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "hindu-cities",
+      "name": "The Hindu — Cities",
+      "short": "The Hindu",
+      "url": "https://www.thehindu.com/news/cities/feeder/default.rss",
+      "site": "https://www.thehindu.com/news/cities/",
+      "tier": "national",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "hindu-environment",
+      "name": "The Hindu — Energy & Environment",
+      "short": "The Hindu",
+      "url": "https://www.thehindu.com/sci-tech/energy-and-environment/feeder/default.rss",
+      "site": "https://www.thehindu.com/sci-tech/energy-and-environment/",
+      "tier": "national",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "ie-india",
+      "name": "The Indian Express — India",
+      "short": "Indian Express",
+      "url": "https://indianexpress.com/section/india/feed/",
+      "site": "https://indianexpress.com/section/india/",
+      "tier": "national",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "ie-cities",
+      "name": "The Indian Express — Cities",
+      "short": "Indian Express",
+      "url": "https://indianexpress.com/section/cities/feed/",
+      "site": "https://indianexpress.com/section/cities/",
+      "tier": "national",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "ht-india",
+      "name": "Hindustan Times — India",
+      "short": "Hindustan Times",
+      "url": "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml",
+      "site": "https://www.hindustantimes.com/india-news",
+      "tier": "national",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "ht-cities",
+      "name": "Hindustan Times — Cities",
+      "short": "Hindustan Times",
+      "url": "https://www.hindustantimes.com/feeds/rss/cities/rssfeed.xml",
+      "site": "https://www.hindustantimes.com/cities",
+      "tier": "national",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "toi-top",
+      "name": "The Times of India — Top Stories",
+      "short": "Times of India",
+      "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+      "site": "https://timesofindia.indiatimes.com/",
+      "tier": "national",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "mint",
+      "name": "Mint",
+      "short": "Mint",
+      "url": "https://www.livemint.com/rss/news",
+      "site": "https://www.livemint.com/",
+      "tier": "national",
+      "lean": "centre-right",
+      "specialist": false
+    },
+    {
+      "id": "mint-industry",
+      "name": "Mint — Industry",
+      "short": "Mint",
+      "url": "https://www.livemint.com/rss/industry",
+      "site": "https://www.livemint.com/industry",
+      "tier": "national",
+      "lean": "centre-right",
+      "specialist": false
+    },
+    {
+      "id": "et-top",
+      "name": "The Economic Times",
+      "short": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/rssfeedstopstories.cms",
+      "site": "https://economictimes.indiatimes.com/",
+      "tier": "national",
+      "lean": "centre-right",
+      "specialist": false
+    },
+    {
+      "id": "et-realty",
+      "name": "ET RealEstate",
+      "short": "ET RealEstate",
+      "url": "https://realty.economictimes.indiatimes.com/rss/topstories",
+      "site": "https://realty.economictimes.indiatimes.com/",
+      "tier": "national",
+      "lean": "centre-right",
+      "specialist": true
+    },
+    {
+      "id": "firstpost",
+      "name": "Firstpost — India",
+      "short": "Firstpost",
+      "url": "https://www.firstpost.com/commonfeeds/v1/mfp/rss/india.xml",
+      "site": "https://www.firstpost.com/india",
+      "tier": "national",
+      "lean": "right",
+      "specialist": false
+    },
+    {
+      "id": "thefederal",
+      "name": "The Federal",
+      "short": "The Federal",
+      "url": "https://thefederal.com/feed",
+      "site": "https://thefederal.com/",
+      "tier": "national",
+      "lean": "left",
+      "specialist": false
+    },
+    {
+      "id": "frontline",
+      "name": "Frontline",
+      "short": "Frontline",
+      "url": "https://frontline.thehindu.com/feeder/default.rss",
+      "site": "https://frontline.thehindu.com/",
+      "tier": "national",
+      "lean": "left",
+      "specialist": false
+    },
+    {
+      "id": "questionofcities",
+      "name": "Question of Cities",
+      "short": "Question of Cities",
+      "url": "https://questionofcities.org/feed/",
+      "site": "https://questionofcities.org/",
+      "tier": "national",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "citizenmatters",
+      "name": "Citizen Matters",
+      "short": "Citizen Matters",
+      "url": "https://citizenmatters.in/feed",
+      "site": "https://citizenmatters.in/",
+      "tier": "national",
+      "lean": "specialist",
+      "specialist": true
+    },
+
+    {
+      "id": "guardian-cities",
+      "name": "The Guardian — Cities",
+      "short": "The Guardian",
+      "url": "https://www.theguardian.com/cities/rss",
+      "site": "https://www.theguardian.com/cities",
+      "tier": "international",
+      "lean": "left",
+      "specialist": true
+    },
+    {
+      "id": "guardian-environment",
+      "name": "The Guardian — Environment",
+      "short": "The Guardian",
+      "url": "https://www.theguardian.com/environment/rss",
+      "site": "https://www.theguardian.com/environment",
+      "tier": "international",
+      "lean": "left",
+      "specialist": false
+    },
+    {
+      "id": "nyt-climate",
+      "name": "The New York Times — Climate",
+      "short": "New York Times",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",
+      "site": "https://www.nytimes.com/section/climate",
+      "tier": "international",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "nyt-realestate",
+      "name": "The New York Times — Real Estate",
+      "short": "New York Times",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/RealEstate.xml",
+      "site": "https://www.nytimes.com/section/realestate",
+      "tier": "international",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "atlantic",
+      "name": "The Atlantic",
+      "short": "The Atlantic",
+      "url": "https://www.theatlantic.com/feed/all/",
+      "site": "https://www.theatlantic.com/",
+      "tier": "international",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "npr",
+      "name": "NPR — News",
+      "short": "NPR",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "site": "https://www.npr.org/",
+      "tier": "international",
+      "lean": "centre-left",
+      "specialist": false
+    },
+    {
+      "id": "grist",
+      "name": "Grist",
+      "short": "Grist",
+      "url": "https://grist.org/feed/",
+      "site": "https://grist.org/",
+      "tier": "international",
+      "lean": "left",
+      "specialist": false
+    },
+    {
+      "id": "bbc-world",
+      "name": "BBC News — World",
+      "short": "BBC News",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "site": "https://www.bbc.com/news/world",
+      "tier": "international",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "dw",
+      "name": "Deutsche Welle",
+      "short": "DW",
+      "url": "https://rss.dw.com/rdf/rss-en-all",
+      "site": "https://www.dw.com/en/",
+      "tier": "international",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "aljazeera",
+      "name": "Al Jazeera English",
+      "short": "Al Jazeera",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "site": "https://www.aljazeera.com/",
+      "tier": "international",
+      "lean": "centre",
+      "specialist": false
+    },
+    {
+      "id": "conversation",
+      "name": "The Conversation — Global",
+      "short": "The Conversation",
+      "url": "https://theconversation.com/global/articles.atom",
+      "site": "https://theconversation.com/global",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": false
+    },
+    {
+      "id": "carbonbrief",
+      "name": "Carbon Brief",
+      "short": "Carbon Brief",
+      "url": "https://www.carbonbrief.org/feed",
+      "site": "https://www.carbonbrief.org/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": false
+    },
+    {
+      "id": "wsj-world",
+      "name": "The Wall Street Journal — World",
+      "short": "Wall Street Journal",
+      "url": "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
+      "site": "https://www.wsj.com/",
+      "tier": "international",
+      "lean": "centre-right",
+      "specialist": false
+    },
+    {
+      "id": "ft",
+      "name": "Financial Times",
+      "short": "Financial Times",
+      "url": "https://www.ft.com/rss/home",
+      "site": "https://www.ft.com/",
+      "tier": "international",
+      "lean": "centre-right",
+      "specialist": false
+    },
+    {
+      "id": "cityjournal",
+      "name": "City Journal",
+      "short": "City Journal",
+      "url": "https://www.city-journal.org/rss.xml",
+      "site": "https://www.city-journal.org/",
+      "tier": "international",
+      "lean": "right",
+      "specialist": true
+    },
+    {
+      "id": "nationalreview",
+      "name": "National Review",
+      "short": "National Review",
+      "url": "https://www.nationalreview.com/feed/",
+      "site": "https://www.nationalreview.com/",
+      "tier": "international",
+      "lean": "right",
+      "specialist": false
+    },
+    {
+      "id": "reason",
+      "name": "Reason",
+      "short": "Reason",
+      "url": "https://reason.com/latest/feed/",
+      "site": "https://reason.com/",
+      "tier": "international",
+      "lean": "right",
+      "specialist": false
+    },
+    {
+      "id": "streetsblog",
+      "name": "Streetsblog USA",
+      "short": "Streetsblog",
+      "url": "https://usa.streetsblog.org/feed",
+      "site": "https://usa.streetsblog.org/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "smartcitiesdive",
+      "name": "Smart Cities Dive",
+      "short": "Smart Cities Dive",
+      "url": "https://www.smartcitiesdive.com/feeds/news/",
+      "site": "https://www.smartcitiesdive.com/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "archdaily",
+      "name": "ArchDaily",
+      "short": "ArchDaily",
+      "url": "https://www.archdaily.com/rss/",
+      "site": "https://www.archdaily.com/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "dezeen",
+      "name": "Dezeen",
+      "short": "Dezeen",
+      "url": "https://www.dezeen.com/feed/",
+      "site": "https://www.dezeen.com/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "archpaper",
+      "name": "The Architect's Newspaper",
+      "short": "Architect's Newspaper",
+      "url": "https://www.archpaper.com/feed/",
+      "site": "https://www.archpaper.com/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": true
+    },
+    {
+      "id": "technologyreview",
+      "name": "MIT Technology Review",
+      "short": "MIT Tech Review",
+      "url": "https://www.technologyreview.com/feed/",
+      "site": "https://www.technologyreview.com/",
+      "tier": "international",
+      "lean": "specialist",
+      "specialist": false
+    }
+  ]
+}
