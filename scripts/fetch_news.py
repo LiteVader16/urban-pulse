@@ -83,6 +83,21 @@ TRACKING_PARAMS = re.compile(r"^(utm_|fbclid|gclid|ref|source|at_|CMP|cmp)", re.
 # --- Fetching -----------------------------------------------------------
 
 
+class _RedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Follow 307/308 as well as the older redirect codes.
+
+    Python below 3.11 does not handle 307/308 at all, and a growing number of
+    publishers answer feed requests with a 308. Untreated it raises and the feed
+    looks stone dead, when in fact it has simply moved.
+    """
+
+    http_error_307 = urllib.request.HTTPRedirectHandler.http_error_302
+    http_error_308 = urllib.request.HTTPRedirectHandler.http_error_302
+
+
+_OPENER = urllib.request.build_opener(_RedirectHandler)
+
+
 def fetch(url):
     """GET a feed, following redirects, transparently gunzipping.
 
@@ -102,7 +117,7 @@ def fetch(url):
                     "Accept-Encoding": "gzip",
                 },
             )
-            with urllib.request.urlopen(req, timeout=FETCH_TIMEOUT) as resp:
+            with _OPENER.open(req, timeout=FETCH_TIMEOUT) as resp:
                 raw = resp.read()
                 if resp.headers.get("Content-Encoding") == "gzip":
                     raw = gzip.decompress(raw)

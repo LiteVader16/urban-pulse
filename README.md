@@ -81,20 +81,26 @@ editorial orientation, not a quality judgement.
 |---|---|
 | **Ahmedabad** | Times of India Ahmedabad, Indian Express Ahmedabad |
 | **Bengaluru** | Times of India Bengaluru, Indian Express Bangalore, The Hindu Bangalore, Citizen Matters Bengaluru |
-| **India** | The Hindu (national · cities · environment), Indian Express (india · cities), Hindustan Times (india · cities), Times of India, Mint, Economic Times, ET RealEstate, Frontline, The Federal, Firstpost, Question of Cities, Citizen Matters |
+| **India** | The Hindu (national · cities · environment), Indian Express (india · cities), Hindustan Times (india · cities), Times of India, Mint, Economic Times, ET RealEstate, Frontline, The Federal, News18, Question of Cities, Citizen Matters |
 | **World** | Guardian (cities · environment), New York Times (climate · real estate), The Atlantic, NPR, Grist, BBC, DW, Al Jazeera, The Conversation, Carbon Brief, Wall Street Journal, Financial Times, City Journal, National Review, Reason, Streetsblog, Smart Cities Dive, ArchDaily, Dezeen, The Architect's Newspaper, MIT Technology Review |
 
 Spread: **left** Guardian, Grist, Frontline, The Federal · **centre-left** The Hindu,
 NYT, Atlantic, NPR · **centre** BBC, DW, Al Jazeera, Indian Express, HT, TOI ·
 **centre-right** WSJ, FT, Mint, Economic Times · **right** City Journal, National
-Review, Reason, Firstpost · **specialist** the design, civic and science press.
+Review, Reason, News18 · **specialist** the design, civic and science press.
 
 ### Wanted but unavailable
 
 These have no usable public feed or block automated fetches at the edge, so they
 are left out rather than shipped broken: Next City, Bloomberg CityLab, Yale e360,
 Governing, Scroll.in, The Wire, ThePrint, Down To Earth, Deccan Herald, Business
-Standard, Mongabay India, Swarajya (feed exists but is empty).
+Standard, Mongabay India, Swarajya (feed exists but is empty), Firstpost (answers
+a laptop but returns 403 to GitHub's runners, regardless of user-agent).
+
+Feeds are judged on whether the newsroom is credible, not on whether it agrees
+with anything. A working feed was still declined where the outlet has a
+documented record of publishing fabricated material — a viewpoint mix is the
+point, an accuracy mix is not.
 
 ## Running it locally
 

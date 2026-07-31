@@ -183,11 +183,11 @@
       "specialist": true
     },
     {
-      "id": "firstpost",
-      "name": "Firstpost — India",
-      "short": "Firstpost",
-      "url": "https://www.firstpost.com/commonfeeds/v1/mfp/rss/india.xml",
-      "site": "https://www.firstpost.com/india",
+      "id": "news18-india",
+      "name": "News18 — India",
+      "short": "News18",
+      "url": "https://www.news18.com/commonfeeds/v1/eng/rss/india.xml",
+      "site": "https://www.news18.com/india/",
       "tier": "national",
       "lean": "right",
       "specialist": false
@@ -447,8 +447,8 @@
       "id": "archpaper",
       "name": "The Architect's Newspaper",
       "short": "Architect's Newspaper",
-      "url": "https://www.archpaper.com/feed/",
-      "site": "https://www.archpaper.com/",
+      "url": "https://archpaper.com/feed/",
+      "site": "https://archpaper.com/",
       "tier": "international",
       "lean": "specialist",
       "specialist": true
