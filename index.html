@@ -16,7 +16,11 @@
 <!-- ------------------------------------------------------------ masthead -->
 <header class="masthead">
   <div class="brand">
-    <h1 class="wordmark">Urban Pulse</h1>
+    <h1 class="wordmark">
+      <button type="button" id="brand-reset" title="Clear all filters and go to the latest stories">
+        Urban Pulse
+      </button>
+    </h1>
     <p class="tagline">One stop for news on everything cities</p>
   </div>
 
@@ -162,6 +166,7 @@
         </div>
       </div>
       <div class="chart" id="chart-daily"></div>
+      <p class="chart-foot" id="daily-foot"></p>
     </section>
 
     <section class="chart-card">
@@ -171,10 +176,12 @@
         </svg>
         <div>
           <h3>Themes</h3>
-          <p class="chart-note">number of stories</p>
+          <p class="chart-note" id="theme-scope">number of stories</p>
         </div>
       </div>
       <div class="chart" id="chart-themes"></div>
+      <p class="chart-foot">A story can carry up to three themes, so these
+        counts add up to more than the number of stories.</p>
     </section>
 
     <section class="chart-card sources-card">

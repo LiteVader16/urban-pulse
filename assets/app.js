@@ -287,6 +287,17 @@
     renderRailBadges();
   }
 
+  function resetAll() {
+    state.tier = "all";
+    state.sources.clear();
+    state.themes.clear();
+    state.query = "";
+    var days = activeDays(state.data.articles);
+    if (days.length) state.date = days[0];
+    state.calMonth = parseISO(state.date);
+    afterFilterChange();
+  }
+
   function afterFilterChange() {
     // Keep the reader on a day that still has something to read.
     var days = activeDays(filtered());
@@ -747,8 +758,8 @@
       days.push(iso(new Date(today.getFullYear(), today.getMonth(), today.getDate() - i)));
     }
 
-    var W = 300, H = 130;
-    var m = { top: 10, right: 6, bottom: 22, left: 22 };
+    var W = 300, H = 118;
+    var m = { top: 16, right: 2, bottom: 20, left: 2 };
     var innerW = W - m.left - m.right;
     var innerH = H - m.top - m.bottom;
     var max = 4;
@@ -760,21 +771,21 @@
       "aria-label": "Stories per day over the last fourteen days"
     });
 
-    [0, Math.round(max / 2), max].forEach(function (t) {
-      var y = m.top + innerH - (t / max) * innerH;
-      svg.appendChild(svgEl("line", {
-        x1: m.left, x2: W - m.right, y1: y, y2: y,
-        "class": t === 0 ? "axis-line" : "grid-line"
-      }));
-      var label = svgEl("text", {
-        x: m.left - 5, y: y + 3, "text-anchor": "end", "class": "axis-text"
-      });
-      label.textContent = t;
-      svg.appendChild(label);
-    });
+    // One hairline baseline and a single annotated peak, rather than a ruled
+    // grid: the reader needs the shape and the maximum, not five tick marks.
+    svg.appendChild(svgEl("line", {
+      x1: m.left, x2: W - m.right, y1: m.top + innerH, y2: m.top + innerH,
+      "class": "axis-line"
+    }));
+    var peak = svgEl("text", { x: m.left, y: m.top - 5, "class": "axis-max" });
+    peak.textContent = max + " stories";
+    svg.appendChild(peak);
+    svg.appendChild(svgEl("line", {
+      x1: m.left, x2: W - m.right, y1: m.top, y2: m.top, "class": "grid-line"
+    }));
 
     var band = innerW / days.length;
-    var barW = Math.max(3, band - 4);
+    var barW = Math.max(3, band - 5);
 
     days.forEach(function (key, idx) {
       var value = counts[key] || 0;
@@ -828,6 +839,11 @@
     });
 
     host.appendChild(svg);
+
+    var shown = 0;
+    days.forEach(function (k) { shown += counts[k] || 0; });
+    $("daily-foot").textContent = shown + " stories in this window · " +
+      "the highlighted bar is the day on screen";
   }
 
   function renderThemeChart(list) {
@@ -850,14 +866,14 @@
     }
 
     var W = 300;
-    var rowH = 22;
-    var H = rows.length * rowH + 6;
-    // Wide enough for the longest theme name at the label size; anything
-    // narrower silently clips the label off the left edge.
-    var labelW = 150;
-    var valueW = 22;
+    // Label sits above its own bar rather than in a left gutter: full theme
+    // names fit at a readable size, and the bars all start from one baseline
+    // so their lengths are directly comparable.
+    var rowH = 27;
+    var H = rows.length * rowH + 2;
+    var valueW = 24;
     var max = rows[0].count;
-    var trackW = W - labelW - valueW - 6;
+    var trackW = W - valueW;
 
     var svg = svgEl("svg", {
       viewBox: "0 0 " + W + " " + H,
@@ -866,29 +882,33 @@
     });
 
     rows.forEach(function (row, idx) {
-      var y = idx * rowH + 4;
-      var barH = 11;
+      var y = idx * rowH;
+      var barH = 7;
+      var barY = y + 13;
       var w = Math.max(2, (row.count / max) * trackW);
       var colour = familyColour(themeFamily(row.id));
 
-      var label = svgEl("text", {
-        x: labelW - 8, y: y + barH - 1.5, "text-anchor": "end", "class": "bar-label"
-      });
+      var label = svgEl("text", { x: 0, y: y + 8, "class": "bar-label" });
       label.textContent = themeLabel(row.id);
       svg.appendChild(label);
 
+      // Faint full-width track shows each bar against the same maximum.
       svg.appendChild(svgEl("path", {
-        d: barPath(labelW, y, w, barH, 3, true),
+        d: barPath(0, barY, trackW, barH, 3, true), "class": "bar-track"
+      }));
+
+      svg.appendChild(svgEl("path", {
+        d: barPath(0, barY, w, barH, 3, true),
         fill: colour, "class": "bar", "data-idx": idx
       }));
 
       var value = svgEl("text", {
-        x: labelW + w + 5, y: y + barH - 1.5, "class": "bar-value"
+        x: W, y: y + 9, "text-anchor": "end", "class": "bar-value"
       });
       value.textContent = row.count;
       svg.appendChild(value);
 
-      var hit = svgEl("rect", { x: 0, y: y - 3, width: W, height: rowH, "class": "bar-hit" });
+      var hit = svgEl("rect", { x: 0, y: y, width: W, height: rowH, "class": "bar-hit" });
       hit.style.cursor = "pointer";
       hit.addEventListener("mousemove", function (evt) {
         host.classList.add("is-hovered");
@@ -914,10 +934,36 @@
     host.appendChild(svg);
   }
 
-  function renderCharts() {
+  /* What the theme chart is counting. The daily chart is always a 14-day
+     window — that is its whole purpose — but the theme breakdown should
+     describe whatever the reader is actually looking at, which is one day in
+     the day and focus views, and the displayed month in the calendar. */
+  function themeScope() {
     var list = filtered();
-    renderDailyChart(list);
-    renderThemeChart(list);
+    if (state.view === "calendar" && state.calMonth) {
+      var y = state.calMonth.getFullYear();
+      var m = state.calMonth.getMonth();
+      return {
+        list: list.filter(function (a) {
+          var d = parseISO(localDay(a));
+          return d.getFullYear() === y && d.getMonth() === m;
+        }),
+        note: "in " + state.calMonth.toLocaleDateString(undefined, { month: "long" })
+      };
+    }
+    var day = state.date;
+    return {
+      list: list.filter(function (a) { return localDay(a) === day; }),
+      note: "on " + parseISO(day).toLocaleDateString(undefined,
+        { day: "numeric", month: "long" })
+    };
+  }
+
+  function renderCharts() {
+    renderDailyChart(filtered());
+    var scope = themeScope();
+    $("theme-scope").textContent = scope.note;
+    renderThemeChart(scope.list);
   }
 
   function renderSources() {
@@ -993,12 +1039,18 @@
       renderPanel();
     });
 
-    $("clear-filters").addEventListener("click", function () {
-      state.tier = "all";
-      state.sources.clear();
-      state.themes.clear();
-      state.query = "";
-      afterFilterChange();
+    $("clear-filters").addEventListener("click", resetAll);
+
+    // The masthead is the way back to a clean slate: drop every filter, close
+    // the panel and return to the most recent day.
+    $("brand-reset").addEventListener("click", function () {
+      resetAll();
+      state.openPanel = null;
+      Array.prototype.forEach.call(document.querySelectorAll(".rail-btn"), function (b) {
+        b.setAttribute("aria-expanded", "false");
+      });
+      renderPanel();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     $("view-day").addEventListener("click", function () { setView("day"); });
