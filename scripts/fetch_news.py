@@ -62,10 +62,17 @@ THIN_SUMMARY_CHARS = 80
 THIN_MIN_URBAN = 3
 THIN_MIN_THEME = 3
 
-USER_AGENT = (
+# Tried in order across retries. Some publishers serve feeds happily to a
+# self-identifying reader but block a browser string coming from a datacenter
+# IP, and some do the exact opposite — rotating recovers both cases. This is
+# why two feeds that work from a laptop can still fail on a CI runner.
+USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-)
+    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "UrbanPulse/1.0 (+https://github.com/LiteVader16/urban-pulse) feed-reader",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/124.0.0.0 Safari/537.36",
+]
 
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
@@ -77,14 +84,19 @@ TRACKING_PARAMS = re.compile(r"^(utm_|fbclid|gclid|ref|source|at_|CMP|cmp)", re.
 
 
 def fetch(url):
-    """GET a feed, following redirects, transparently gunzipping."""
+    """GET a feed, following redirects, transparently gunzipping.
+
+    Each attempt uses a different User-Agent, so a publisher that rejects one
+    client string still has a chance of answering the next.
+    """
     last_error = None
     for attempt in range(RETRIES + 1):
+        agent = USER_AGENTS[attempt % len(USER_AGENTS)]
         try:
             req = urllib.request.Request(
                 url,
                 headers={
-                    "User-Agent": USER_AGENT,
+                    "User-Agent": agent,
                     "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
                     "Accept-Language": "en-GB,en;q=0.9",
                     "Accept-Encoding": "gzip",
@@ -264,6 +276,12 @@ def process_source(source, cutoff, verbose=False):
     }
     try:
         raw = fetch(source["url"])
+    except urllib.error.HTTPError as exc:
+        # The status code is the whole diagnosis: 403 means we are being
+        # blocked, 404 means the feed moved. Surfacing it in the footer makes
+        # a dead source actionable instead of merely red.
+        health["error"] = f"HTTP {exc.code}"
+        return [], health
     except Exception as exc:  # noqa: BLE001
         health["error"] = f"fetch failed: {type(exc).__name__}"
         return [], health
